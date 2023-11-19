@@ -18,12 +18,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get("/",function() {
+Route::get("/user",function() {
     // Cache::store('redis');
+    
+    // \Log::info(json_encode(Cache::get("users")));
 
     $value = Cache::remember('users',now()->addDays(1),function(){
         return \App\Models\User::get();
     });
+    // 150 ms 
+
+    // $value = \App\Models\User::get();
+    // 222 ms 
 
     return response()->json($value);
 });
